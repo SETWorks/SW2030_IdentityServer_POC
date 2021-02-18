@@ -31,13 +31,24 @@ namespace IdentityServerHost
                 .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
-
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddIdentityServer()
-                .AddInMemoryIdentityResources(IdentityServerHost.Configuration.Resources.IdentityResources)
-                .AddInMemoryApiResources(IdentityServerHost.Configuration.Resources.ApiResources)
-                .AddInMemoryApiScopes(IdentityServerHost.Configuration.Resources.ApiScopes)
-                .AddInMemoryClients(Clients.Get())
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddAspNetIdentity<ApplicationUser>()
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = b =>
+                        b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Startup).Assembly.FullName));
+                })
+                // this adds the operational data from DB (codes, tokens, consents)
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = b =>
+                        b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Startup).Assembly.FullName));
+
+                    // this enables automatic token cleanup. this is optional.
+                    options.EnableTokenCleanup = true;
+                })
+                ;
 
             services.AddAuthentication()
                 .AddOpenIdConnect("Google", "Google", options =>
