@@ -1,0 +1,19 @@
+﻿@page "/"
+@inject NavigationManager uriHelper
+<h1>Set-works</h1>
+
+Welcome to Set-works login page.
+
+<button class="btn btn-primary" @onclick="LoginWithIS">Login</button>
+
+@code {
+
+
+    private void LoginWithIS()
+    {
+        uriHelper.NavigateTo("https://setworks2030identity.azurewebsites.net/Account/Login?ReturnUrl=%2Fdiagnostics");
+    }
+}
+
+
+
