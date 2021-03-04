@@ -19,8 +19,10 @@ namespace IdentityServerHost.Configuration
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
-
+                new IdentityResources.Phone(),//thao adds
+                new IdentityResources.Address(),//thao adds
                 // custom identity resource with some consolidated claims
+                new IdentityResource("setworks.profile", new[] { JwtClaimTypes.Name, JwtClaimTypes.Email, "location", JwtClaimTypes.Address }),
                 new IdentityResource("custom.profile", new[] { JwtClaimTypes.Name, JwtClaimTypes.Email, "location", JwtClaimTypes.Address })
             };
 
@@ -52,11 +54,23 @@ namespace IdentityServerHost.Configuration
                 new ApiScope("transaction", "Transaction")
                 {
                     Description = "Some Transaction"
+                },
+
+                new ApiScope("Setworks.Admin"),
+                new ApiScope("Setworks.Staff"),
+                new ApiScope("Wise.Admin"),
+                new ApiScope("Wise.Staff"),
+                new ApiScope("DentCounty.Admin"),
+                new ApiScope("DentCounty.Staff"),
+                new ApiScope("Dent", "DentTransaction")
+                {
+                    Description = "Dent County transaction",
                 }
+
             };
 
         // API resources are more formal representation of a resource with processing rules and their scopes (if any)
-        public static readonly IEnumerable<ApiResource> ApiResources = 
+        public static readonly IEnumerable<ApiResource> ApiResources =
             new[]
             {
                 new ApiResource("urn:resource1", "Resource 1")
@@ -65,7 +79,7 @@ namespace IdentityServerHost.Configuration
 
                     Scopes = { "resource1.scope1", "resource1.scope2", "shared.scope" }
                 },
-                
+
                 new ApiResource("urn:resource2", "Resource 2")
                 {
                     ApiSecrets = { new Secret("secret".Sha256()) },
@@ -79,13 +93,53 @@ namespace IdentityServerHost.Configuration
 
                     Scopes = { "resource2.scope1", "resource2.scope2", "shared.scope" }
                 },
-                
+
                 new ApiResource("urn:resource3", "Resource 3 (isolated)")
                 {
                     ApiSecrets = { new Secret("secret".Sha256()) },
-                    
+
                     RequireResourceIndicator = true,
                     Scopes = { "resource3.scope1", "resource3.scope2", "shared.scope" }
+                },
+                new ApiResource("urn:Setworks", "Setworks")
+                {
+                    ApiSecrets = { new Secret("secret".Sha256()) },
+                    UserClaims =
+                    {
+                        JwtClaimTypes.Name,
+                        JwtClaimTypes.Email
+                    },
+                    Scopes = { "Setworks.Admin", "Setworks.Staff" }
+                },
+                new ApiResource("urn:Wise", "Wise")
+                {
+                    ApiSecrets = { new Secret("secret".Sha256()) },
+                    UserClaims =
+                    {
+                        JwtClaimTypes.Name,
+                        JwtClaimTypes.Email
+                    },
+                    Scopes = { "Wise.Admin", "Wise.Staff" }
+                },
+                new ApiResource("urn:DentCounty", "DentCounty")
+                {
+                    ApiSecrets = { new Secret("secret".Sha256()) },
+                    UserClaims =
+                    {
+                        JwtClaimTypes.Name,
+                        JwtClaimTypes.Email
+                    },
+                    Scopes = { "DentCounty.Admin.Admin", "DentCounty.Admin.Staff" }
+                },
+                new ApiResource("urn:Dent", "Dent")
+                {
+                    ApiSecrets = { new Secret("secret".Sha256()) },
+                    UserClaims =
+                    {
+                        JwtClaimTypes.Name,
+                        JwtClaimTypes.Email
+                    },
+                    Scopes = { "Dent" }
                 }
             };
     }

@@ -14,11 +14,43 @@ namespace IdentityServerHost.Configuration
             IdentityServerConstants.StandardScopes.OpenId,
             IdentityServerConstants.StandardScopes.Profile,
             IdentityServerConstants.StandardScopes.Email,
+            IdentityServerConstants.StandardScopes.Phone,
+            IdentityServerConstants.StandardScopes.Address,
             "resource1.scope1", 
             "resource2.scope1",
-            "transaction"
+            "transaction",
         };
-        
+        static string[] allowedSWScopes =
+        {
+            IdentityServerConstants.StandardScopes.OpenId,
+            IdentityServerConstants.StandardScopes.Profile,
+            IdentityServerConstants.StandardScopes.Email,
+            IdentityServerConstants.StandardScopes.Phone,
+            IdentityServerConstants.StandardScopes.Address,
+            "Setworks.Admin",
+            "Setworks.Staff",
+        };
+        static string[] allowedWiseScopes =
+        {
+            IdentityServerConstants.StandardScopes.OpenId,
+            IdentityServerConstants.StandardScopes.Profile,
+            IdentityServerConstants.StandardScopes.Email,
+            IdentityServerConstants.StandardScopes.Phone,
+            IdentityServerConstants.StandardScopes.Address,
+            "Wise.Admin",
+            "Wise.Staff",
+        };
+        static string[] allowedDentCountyScopes =
+        {
+            IdentityServerConstants.StandardScopes.OpenId,
+            IdentityServerConstants.StandardScopes.Profile,
+            IdentityServerConstants.StandardScopes.Email,
+            IdentityServerConstants.StandardScopes.Phone,
+            IdentityServerConstants.StandardScopes.Address,
+            "DentCounty.Admin",
+            "DentCounty.Staff",
+            "Dent"
+        };
         public static IEnumerable<Client> Get()
         {
             return new List<Client>
@@ -154,6 +186,77 @@ namespace IdentityServerHost.Configuration
                     AllowOfflineAccess = true,
 
                     AllowedScopes = allowedScopes
+                },
+
+                new Client
+                {
+                    ClientId = "setworks.mvc",
+                    ClientName = "Wise MVC Code Flow",
+
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+
+                    },
+
+                    RequireConsent = true,
+                    AllowedGrantTypes = GrantTypes.Code,
+
+                    RedirectUris = { "https://localhost:44304/signin-oidc" },
+                    FrontChannelLogoutUri = "https://localhost:44304/signout-oidc",
+                    PostLogoutRedirectUris = { "https://localhost:44304/signout-callback-oidc" },
+
+                    AllowOfflineAccess = true,
+
+                    AllowedScopes = allowedSWScopes
+                },
+                new Client
+                {
+                    ClientId = "Wise.jar.jwt",
+                    ClientName = "SetWorks MVC Code Flow with JAR/JWT",
+                    ClientUri = "http://identityserver.io",
+
+                    ClientSecrets =
+                    {
+                        new Secret
+                        {
+                            Type = IdentityServerConstants.SecretTypes.JsonWebKey,
+                            Value = "{'e':'AQAB','kid':'ZzAjSnraU3bkWGnnAqLapYGpTyNfLbjbzgAPbbW2GEA','kty':'RSA','n':'wWwQFtSzeRjjerpEM5Rmqz_DsNaZ9S1Bw6UbZkDLowuuTCjBWUax0vBMMxdy6XjEEK4Oq9lKMvx9JzjmeJf1knoqSNrox3Ka0rnxXpNAz6sATvme8p9mTXyp0cX4lF4U2J54xa2_S9NF5QWvpXvBeC4GAJx7QaSw4zrUkrc6XyaAiFnLhQEwKJCwUw4NOqIuYvYp_IXhw-5Ti_icDlZS-282PcccnBeOcX7vc21pozibIdmZJKqXNsL1Ibx5Nkx1F1jLnekJAmdaACDjYRLL_6n3W4wUp19UvzB1lGtXcJKLLkqB6YDiZNu16OSiSprfmrRXvYmvD8m6Fnl5aetgKw'}"
+                        }
+                    },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireRequestObject = true,
+
+                    RedirectUris = { "https://localhost:44302/signin-oidc" },
+                    FrontChannelLogoutUri = "https://localhost:44302/signout-oidc",
+                    PostLogoutRedirectUris = { "https://localhost:44302/signout-callback-oidc" },
+
+                    AllowOfflineAccess = true,
+
+                    AllowedScopes = allowedWiseScopes
+                },
+                new Client
+                {
+                    ClientId = "dentCounty.code",
+                    ClientName = "Dent County MVC Code Flow",
+                    ClientUri = "http://identityserver.io",
+
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+
+                    RequireConsent = true,
+                    AllowedGrantTypes = GrantTypes.Code,
+
+                    RedirectUris = { "https://localhost:44302/signin-oidc" },
+                    FrontChannelLogoutUri = "https://localhost:44302/signout-oidc",
+                    PostLogoutRedirectUris = { "https://localhost:44302/signout-callback-oidc" },
+
+                    AllowOfflineAccess = true,
+
+                    AllowedScopes = allowedDentCountyScopes
                 },
             };
         }
