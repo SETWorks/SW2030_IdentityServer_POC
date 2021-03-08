@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 
 namespace TestIdentityServer.Server
@@ -25,6 +26,44 @@ namespace TestIdentityServer.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "cookie";
+                options.DefaultChallengeScheme = "oidc";
+            })
+            .AddCookie("cookie")
+            .AddOpenIdConnect("oidc", options =>
+            {
+                options.Authority = "https://identity.setworks2030.com";
+
+                options.ClientId = "mvc.jar.jwt";
+                options.ClientSecret = "secret";
+
+                options.ResponseType = "code";
+                options.ResponseMode = "query";
+
+                options.Scope.Clear();
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                //options.Scope.Add("offline_access");
+                options.Scope.Add("resource1.scope1");
+
+                // keeps id_token smaller
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.SaveTokens = true;
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = "name",
+                    RoleClaimType = "role"
+                };
+            });
+
+            // adds global authorization policy to require authenticated users
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = options.DefaultPolicy;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +86,8 @@ namespace TestIdentityServer.Server
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

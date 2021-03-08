@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
+  </ItemGroup>
+    <!--<ItemGroup>
+        <Compile Include="..\..\hosts\Configuration\Clients.cs">
+            <Link>Configuration\Clients.cs</Link>
+        </Compile>
+        <Compile Include="..\..\..\hosts\Configuration\ClientsConsole.cs">
+            <Link>Configuration\ClientsConsole.cs</Link>
+        </Compile>
+        <Compile Include="..\..\hosts\Configuration\ClientsWeb.cs">
+            <Link>Configuration\ClientsWeb.cs</Link>
+        </Compile>
+        <Compile Include="..\..\..\hosts\Configuration\Resources.cs">
+            <Link>Configuration\Resources.cs</Link>
+        </Compile>
+        
+    </ItemGroup>-->
+    
+</Project>
