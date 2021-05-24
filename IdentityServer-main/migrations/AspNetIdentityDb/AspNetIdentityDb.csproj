@@ -1,16 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+      <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="All" />
+       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="All" />     
+      <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="5.0.4" />
+      <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
+
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\hosts\AspNetIdentity\Host.AspNetIdentity.csproj" />
-    <ProjectReference Include="..\..\src\AspNetIdentity\Duende.IdentityServer.AspNetIdentity.csproj" />
   </ItemGroup>
 
 </Project>

@@ -34,20 +34,77 @@ namespace IdentityServerHost
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddIdentityServer()
                 .AddAspNetIdentity<ApplicationUser>()
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = b =>
-                        b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Startup).Assembly.FullName));
-                })
-                // this adds the operational data from DB (codes, tokens, consents)
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = b =>
-                        b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Startup).Assembly.FullName));
+               
 
-                    // this enables automatic token cleanup. this is optional.
-                    options.EnableTokenCleanup = true;
-                })
+            .AddConfigurationStore(options =>
+            {
+                options.DefaultSchema = "Identity";
+
+                options.ApiResource.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ApiResource);
+                options.ApiScope.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ApiScope);
+                options.Client.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.Client);
+                options.ApiScope.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ApiScope);
+                options.IdentityResource.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.IdentityResource);
+                options.ApiResourceClaim.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ApiResourceClaim);
+                options.ApiResourceProperty.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ApiResourceProperty);
+                options.ApiResourceScope.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ApiResourceScope);
+                options.ApiResourceSecret.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ApiResourceSecret);
+                options.ApiScopeClaim.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ApiScopeClaim);
+                options.ApiScopeProperty.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ApiScopeProperty);
+                options.ClientClaim.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ClientClaim);
+                options.ClientCorsOrigin.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ClientCorsOrigin);
+                options.ClientGrantType.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ClientGrantType);
+                options.ClientIdPRestriction.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ClientIdPRestriction);
+                options.ClientPostLogoutRedirectUri.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ClientPostLogoutRedirectUri);
+                options.ClientProperty.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ClientProperty);
+                options.ClientRedirectUri.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ClientRedirectUri);
+                options.ClientScopes.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ClientScope);
+                options.ClientSecret.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ClientSecret);
+                options.IdentityResourceClaim.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.IdentityResourceClaim);
+                options.IdentityResourceProperty.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.IdentityResourceProperty);
+
+                options.ConfigureDbContext = b =>
+                {
+                    b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Startup).Assembly.FullName));                    
+                };
+
+                
+
+            })
+            .AddOperationalStore(options =>
+            {
+                options.DefaultSchema = "Identity";
+
+                options.DeviceFlowCodes.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes);
+                // options..key.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.ApiScope);
+                options.PersistedGrants.Name = nameof(Duende.IdentityServer.EntityFramework.Entities.PersistedGrant);
+
+                options.ConfigureDbContext = b =>
+                {
+                    b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Startup).Assembly.FullName));
+                };
+
+                options.EnableTokenCleanup = true;
+            })
+                //.AddConfigurationStore(options =>
+                //{
+                //    options.DefaultSchema = "Identity";
+
+                //    options.ConfigureDbContext = b =>
+                //        b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Startup).Assembly.FullName));
+                //})
+                //// this adds the operational data from DB (codes, tokens, consents)
+                //.AddOperationalStore(options =>
+                //{
+                //    options.DefaultSchema = "Identity";
+
+                //    options.ConfigureDbContext = b =>
+                //        b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Startup).Assembly.FullName));
+
+                //    // this enables automatic token cleanup. this is optional.
+                //    options.EnableTokenCleanup = true;
+                //})
+                .AddProfileService<ProfileService>()
                 ;
 
             services.AddAuthentication()

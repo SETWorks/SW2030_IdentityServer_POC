@@ -6,10 +6,15 @@ BEGIN
         CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
     );
 END;
-
 GO
 
-CREATE TABLE [Identity].[DeviceCodes] (
+BEGIN TRANSACTION;
+GO
+
+IF SCHEMA_ID(N'Identity') IS NULL EXEC(N'CREATE SCHEMA [Identity];');
+GO
+
+CREATE TABLE [Identity].[DeviceFlowCodes] (
     [UserCode] nvarchar(200) NOT NULL,
     [DeviceCode] nvarchar(200) NOT NULL,
     [SubjectId] nvarchar(200) NULL,
@@ -19,9 +24,8 @@ CREATE TABLE [Identity].[DeviceCodes] (
     [CreationTime] datetime2 NOT NULL,
     [Expiration] datetime2 NOT NULL,
     [Data] nvarchar(max) NOT NULL,
-    CONSTRAINT [PK_DeviceCodes] PRIMARY KEY ([UserCode])
+    CONSTRAINT [PK_DeviceFlowCodes] PRIMARY KEY ([UserCode])
 );
-
 GO
 
 CREATE TABLE [Identity].[Keys] (
@@ -35,10 +39,9 @@ CREATE TABLE [Identity].[Keys] (
     [Data] nvarchar(max) NOT NULL,
     CONSTRAINT [PK_Keys] PRIMARY KEY ([Id])
 );
-
 GO
 
-CREATE TABLE [Identity].[PersistedGrants] (
+CREATE TABLE [Identity].[PersistedGrant] (
     [Key] nvarchar(200) NOT NULL,
     [Type] nvarchar(50) NOT NULL,
     [SubjectId] nvarchar(200) NULL,
@@ -49,37 +52,32 @@ CREATE TABLE [Identity].[PersistedGrants] (
     [Expiration] datetime2 NULL,
     [ConsumedTime] datetime2 NULL,
     [Data] nvarchar(max) NOT NULL,
-    CONSTRAINT [PK_PersistedGrants] PRIMARY KEY ([Key])
+    CONSTRAINT [PK_PersistedGrant] PRIMARY KEY ([Key])
 );
-
 GO
 
-CREATE UNIQUE INDEX [IX_DeviceCodes_DeviceCode] ON [Identity].[DeviceCodes] ([DeviceCode]);
-
+CREATE UNIQUE INDEX [IX_DeviceFlowCodes_DeviceCode] ON [Identity].[DeviceFlowCodes] ([DeviceCode]);
 GO
 
-CREATE INDEX [IX_DeviceCodes_Expiration] ON [Identity].[DeviceCodes] ([Expiration]);
-
+CREATE INDEX [IX_DeviceFlowCodes_Expiration] ON [Identity].[DeviceFlowCodes] ([Expiration]);
 GO
 
 CREATE INDEX [IX_Keys_Use] ON [Identity].[Keys] ([Use]);
-
 GO
 
-CREATE INDEX [IX_PersistedGrants_Expiration] ON [Identity].[PersistedGrants] ([Expiration]);
-
+CREATE INDEX [IX_PersistedGrant_Expiration] ON [Identity].[PersistedGrant] ([Expiration]);
 GO
 
-CREATE INDEX [IX_PersistedGrants_SubjectId_ClientId_Type] ON [Identity].[PersistedGrants] ([SubjectId], [ClientId], [Type]);
-
+CREATE INDEX [IX_PersistedGrant_SubjectId_ClientId_Type] ON [Identity].[PersistedGrant] ([SubjectId], [ClientId], [Type]);
 GO
 
-CREATE INDEX [IX_PersistedGrants_SubjectId_SessionId_Type] ON [Identity].[PersistedGrants] ([SubjectId], [SessionId], [Type]);
-
+CREATE INDEX [IX_PersistedGrant_SubjectId_SessionId_Type] ON [Identity].[PersistedGrant] ([SubjectId], [SessionId], [Type]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20210113185532_Grants', N'3.1.0');
+VALUES (N'20210524223120_Grants', N'5.0.0');
+GO
 
+COMMIT;
 GO
 

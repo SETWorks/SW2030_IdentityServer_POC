@@ -37,7 +37,7 @@ namespace SqlServer
             if (!context.Clients.Any())
             {
                 Console.WriteLine("Clients being populated");
-                foreach (var client in Clients.Get())
+                foreach (var client in SetWorksConfig.Clients)
                 {
                     context.Clients.Add(client.ToEntity());
                 }
@@ -51,7 +51,7 @@ namespace SqlServer
             if (!context.IdentityResources.Any())
             {
                 Console.WriteLine("IdentityResources being populated");
-                foreach (var resource in Resources.IdentityResources)
+                foreach (var resource in SetWorksConfig.IdentityResources)
                 {
                     context.IdentityResources.Add(resource.ToEntity());
                 }
@@ -65,7 +65,7 @@ namespace SqlServer
             if (!context.ApiResources.Any())
             {
                 Console.WriteLine("ApiResources being populated");
-                foreach (var resource in Resources.ApiResources)
+                foreach (var resource in SetWorksConfig.Apis)
                 {
                     context.ApiResources.Add(resource.ToEntity());
                 }
@@ -79,7 +79,7 @@ namespace SqlServer
             if (!context.ApiScopes.Any())
             {
                 Console.WriteLine("Scopes being populated");
-                foreach (var resource in Resources.ApiScopes)
+                foreach (var resource in SetWorksConfig.ApiScopes)
                 {
                     context.ApiScopes.Add(resource.ToEntity());
                 }

@@ -108,7 +108,7 @@ namespace Duende.IdentityServer.EntityFramework.DbContexts
         {
             modelBuilder.ConfigureClientContext(storeOptions);
             modelBuilder.ConfigureResourcesContext(storeOptions);
-            modelBuilder.HasDefaultSchema("Identity");
+            // modelBuilder.HasDefaultSchema("Identity");
             base.OnModelCreating(modelBuilder);
         }
     }

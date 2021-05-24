@@ -101,7 +101,7 @@ namespace Duende.IdentityServer.EntityFramework.DbContexts
         /// </remarks>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("Identity");
+            // modelBuilder.HasDefaultSchema("Identity");
             modelBuilder.ConfigurePersistedGrantContext(storeOptions);
 
             base.OnModelCreating(modelBuilder);
