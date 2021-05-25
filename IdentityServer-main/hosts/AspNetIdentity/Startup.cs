@@ -34,9 +34,7 @@ namespace Host.AspNetIdentity
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddIdentityServer()
                 .AddAspNetIdentity<ApplicationUser>()
-               
-
-            .AddConfigurationStore(options =>
+                .AddConfigurationStore(options =>
             {
                 options.DefaultSchema = "Identity";
 
