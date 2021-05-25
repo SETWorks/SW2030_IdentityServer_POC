@@ -1,16 +1,16 @@
 using Duende.IdentityServer;
+using Host.AspNetIdentity.Models;
+using IdentityServerHost;
+using IdentityServerHost.Data;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using IdentityServerHost.Data;
-using IdentityServerHost.Configuration;
 using Microsoft.Extensions.Hosting;
-using IdentityServerHost.Models;
 
-namespace IdentityServerHost
+namespace Host.AspNetIdentity
 {
     public class Startup
     {
@@ -26,7 +26,7 @@ namespace IdentityServerHost
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

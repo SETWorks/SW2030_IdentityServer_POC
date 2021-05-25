@@ -339,7 +339,7 @@ CREATE INDEX [IX_IdentityResourceProperty_IdentityResourceId] ON [Identity].[Ide
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20210524223125_Configuration', N'5.0.0');
+VALUES (N'20210525132753_Configuration', N'5.0.0');
 GO
 
 COMMIT;

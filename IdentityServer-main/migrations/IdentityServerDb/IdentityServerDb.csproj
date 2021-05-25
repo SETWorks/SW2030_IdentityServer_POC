@@ -14,7 +14,7 @@
         <ProjectReference Include="..\..\src\IdentityServer\Duende.IdentityServer.csproj" />-->
         <PackageReference Include="Duende.IdentityServer" Version="5.0.4" />
         <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="5.0.4" />
-        <PackageReference Include="Duende.IdentityServer.EntityFramework.Storage" Version="5.0.4" />        
+        <PackageReference Include="Duende.IdentityServer.EntityFramework.Storage" Version="5.0.4" />   
     </ItemGroup>
 
     <ItemGroup>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
+using Host.AspNetIdentity.Models;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using IdentityServerHost.Models;
@@ -22,11 +23,11 @@ namespace IdentityServerHost
         
         private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
         private readonly UserManager<ApplicationUser> _userMgr;
-        private readonly RoleManager<IdentityRole> _roleMgr;
+        private readonly RoleManager<ApplicationRole> _roleMgr;
 
         public ProfileService(
             UserManager<ApplicationUser> userMgr,
-            RoleManager<IdentityRole> roleMgr,
+            RoleManager<ApplicationRole> roleMgr,
             IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory)
         {
             _userMgr = userMgr;
@@ -51,7 +52,7 @@ namespace IdentityServerHost
                     claims.Add(new Claim(JwtClaimTypes.Role, roleName));
                     if (_roleMgr.SupportsRoleClaims)
                     {
-                        IdentityRole role = await _roleMgr.FindByNameAsync(roleName);
+                        ApplicationRole role = await _roleMgr.FindByNameAsync(roleName);
                         if (role != null)
                         {
                             claims.AddRange(await _roleMgr.GetClaimsAsync(role));

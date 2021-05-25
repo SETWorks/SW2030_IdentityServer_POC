@@ -9,8 +9,9 @@ using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.Diagnostics;
+using Host.AspNetIdentity;
 
-namespace IdentityServerHost
+namespace Host.AspNetIdentity
 {
     public class Program
     {
@@ -55,7 +56,7 @@ namespace IdentityServerHost
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+            Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

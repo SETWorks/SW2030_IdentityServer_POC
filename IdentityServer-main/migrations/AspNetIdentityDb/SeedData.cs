@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Security.Claims;
+using Host.AspNetIdentity.Models;
 using IdentityServerHost.Data;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
@@ -22,19 +23,19 @@ namespace IdentityServerHost
 
                 if (!context.Roles.Any(r => r.Name == "Admin"))
                 {
-                    context.Roles.Add(new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "Admin", NormalizedName = "Admin", ConcurrencyStamp = Guid.NewGuid().ToString() });
+                    context.Roles.Add(new ApplicationRole { Id = Guid.NewGuid(), Name = "Admin", NormalizedName = "Admin", ConcurrencyStamp = Guid.NewGuid().ToString() });
                     context.SaveChanges();
                 }
 
                 if (!context.Roles.Any(r => r.Name == "Manager"))
                 {
-                    context.Roles.Add(new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "Manager", NormalizedName = "Manager", ConcurrencyStamp = Guid.NewGuid().ToString() });
+                    context.Roles.Add(new ApplicationRole { Id = Guid.NewGuid(), Name = "Manager", NormalizedName = "Manager", ConcurrencyStamp = Guid.NewGuid().ToString() });
                     context.SaveChanges();
                 }
 
                 if (!context.Roles.Any(r => r.Name == "Staff"))
                 {
-                    context.Roles.Add(new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "Staff", NormalizedName = "Staff", ConcurrencyStamp = Guid.NewGuid().ToString() });
+                    context.Roles.Add(new ApplicationRole { Id = Guid.NewGuid(), Name = "Staff", NormalizedName = "Staff", ConcurrencyStamp = Guid.NewGuid().ToString() });
                     context.SaveChanges();
                 }
 
@@ -175,7 +176,7 @@ namespace IdentityServerHost
                 var adminRole = context.Roles.First(r => r.Name == "Admin");
                 if (!context.UserRoles.Any(ur => ur.RoleId == adminRole.Id && ur.UserId == blake.Id))
                 {
-                    context.UserRoles.Add(new IdentityUserRole<string> { RoleId = adminRole.Id, UserId = blake.Id });
+                    context.UserRoles.Add(new IdentityUserRole<Guid> { RoleId = adminRole.Id, UserId = blake.Id });
                     context.SaveChanges();
                 }                
 

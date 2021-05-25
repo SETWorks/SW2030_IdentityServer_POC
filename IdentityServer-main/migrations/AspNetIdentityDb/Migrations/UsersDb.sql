@@ -15,7 +15,7 @@ IF SCHEMA_ID(N'Identity') IS NULL EXEC(N'CREATE SCHEMA [Identity];');
 GO
 
 CREATE TABLE [Identity].[Role] (
-    [Id] nvarchar(450) NOT NULL,
+    [Id] uniqueidentifier NOT NULL,
     [Name] nvarchar(256) NULL,
     [NormalizedName] nvarchar(256) NULL,
     [ConcurrencyStamp] nvarchar(max) NULL,
@@ -24,7 +24,7 @@ CREATE TABLE [Identity].[Role] (
 GO
 
 CREATE TABLE [Identity].[User] (
-    [Id] nvarchar(450) NOT NULL,
+    [Id] uniqueidentifier NOT NULL,
     [UserName] nvarchar(256) NULL,
     [NormalizedUserName] nvarchar(256) NULL,
     [Email] nvarchar(256) NULL,
@@ -45,7 +45,7 @@ GO
 
 CREATE TABLE [Identity].[RoleClaim] (
     [Id] int NOT NULL IDENTITY,
-    [RoleId] nvarchar(450) NOT NULL,
+    [RoleId] uniqueidentifier NOT NULL,
     [ClaimType] nvarchar(max) NULL,
     [ClaimValue] nvarchar(max) NULL,
     CONSTRAINT [PK_RoleClaim] PRIMARY KEY ([Id]),
@@ -55,7 +55,7 @@ GO
 
 CREATE TABLE [Identity].[UserClaim] (
     [Id] int NOT NULL IDENTITY,
-    [UserId] nvarchar(450) NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
     [ClaimType] nvarchar(max) NULL,
     [ClaimValue] nvarchar(max) NULL,
     CONSTRAINT [PK_UserClaim] PRIMARY KEY ([Id]),
@@ -67,15 +67,15 @@ CREATE TABLE [Identity].[UserLogin] (
     [LoginProvider] nvarchar(450) NOT NULL,
     [ProviderKey] nvarchar(450) NOT NULL,
     [ProviderDisplayName] nvarchar(max) NULL,
-    [UserId] nvarchar(450) NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
     CONSTRAINT [PK_UserLogin] PRIMARY KEY ([LoginProvider], [ProviderKey]),
     CONSTRAINT [FK_UserLogin_User_UserId] FOREIGN KEY ([UserId]) REFERENCES [Identity].[User] ([Id]) ON DELETE CASCADE
 );
 GO
 
 CREATE TABLE [Identity].[UserRole] (
-    [UserId] nvarchar(450) NOT NULL,
-    [RoleId] nvarchar(450) NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
+    [RoleId] uniqueidentifier NOT NULL,
     CONSTRAINT [PK_UserRole] PRIMARY KEY ([UserId], [RoleId]),
     CONSTRAINT [FK_UserRole_Role_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [Identity].[Role] ([Id]) ON DELETE CASCADE,
     CONSTRAINT [FK_UserRole_User_UserId] FOREIGN KEY ([UserId]) REFERENCES [Identity].[User] ([Id]) ON DELETE CASCADE
@@ -83,7 +83,7 @@ CREATE TABLE [Identity].[UserRole] (
 GO
 
 CREATE TABLE [Identity].[UserToken] (
-    [UserId] nvarchar(450) NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
     [LoginProvider] nvarchar(450) NOT NULL,
     [Name] nvarchar(450) NOT NULL,
     [Value] nvarchar(max) NULL,
@@ -114,7 +114,7 @@ CREATE INDEX [IX_UserRole_RoleId] ON [Identity].[UserRole] ([RoleId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20210524222949_Users', N'5.0.0');
+VALUES (N'20210525132518_Users', N'5.0.0');
 GO
 
 COMMIT;

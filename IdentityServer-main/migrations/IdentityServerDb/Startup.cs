@@ -22,25 +22,6 @@ namespace SqlServer
             Configuration = config;
         }
 
-        //public class SetWorksConfigurationDbContext : Duende.IdentityServer.EntityFramework.DbContexts.ConfigurationDbContext
-        //{
-
-        //    public SetWorksConfigurationDbContext(DbContextOptions<ConfigurationDbContext> options, ConfigurationStoreOptions storeOptions) : base(options, storeOptions)
-        //    {
-
-        //    }
-
-        //    protected override void OnModelCreating(ModelBuilder builder)
-        //    {
-        //        base.OnModelCreating(builder);
-
-        //        builder.HasDefaultSchema("Identity");
-
-        //        builder.Entity<Duende.IdentityServer.EntityFramework.Entities.Client>().ToTable("Client", "Identity");
-        //    }
-
-        //}
-
         public void ConfigureServices(IServiceCollection services)
         {
             var cn = Configuration.GetConnectionString("DefaultConnection");//thao

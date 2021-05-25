@@ -11,6 +11,7 @@ using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
+using Host.AspNetIdentity.Models;
 using IdentityModel;
 using IdentityServerHost.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -120,9 +121,9 @@ namespace IdentityServerHost.Quickstart.UI
             // it doesn't expose an API to issue additional claims from the login workflow
             var principal = await _signInManager.CreateUserPrincipalAsync(user);
             additionalLocalClaims.AddRange(principal.Claims);
-            var name = principal.FindFirst(JwtClaimTypes.Name)?.Value ?? user.Id;
+            var name = principal.FindFirst(JwtClaimTypes.Name)?.Value ?? user.Id.ToString();
             
-            var isuser = new IdentityServerUser(user.Id)
+            var isuser = new IdentityServerUser(user.Id.ToString())
             {
                 DisplayName = name,
                 IdentityProvider = provider,
@@ -139,7 +140,7 @@ namespace IdentityServerHost.Quickstart.UI
 
             // check if external login is in the context of an OIDC request
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
-            await _events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.Id, name, true, context?.Client.ClientId));
+            await _events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.Id.ToString(), name, true, context?.Client.ClientId));
 
             if (context != null)
             {
